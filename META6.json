@@ -1,0 +1,26 @@
+{
+    "name" : "Terminal::Gauge",
+    "description" : "A Raku module that supports ANSI colour terminal progress gauges.\nThis module utilises ANSI escape sequences to colour and manipulate the output\nit reserves either the bottom row of the terminal init-term()\n(or init-term(Bars::One)) or it will reserve the bottom 2 rows init-term(Bars::Two)\nfor the gauge or gauges then calls to progress-bar(Str:D $prfix, Int:D $current, Int:D $length --> Bool) and in the case of init-term(Bars::Two)\nsub-progress-bar(...) will update the progress bars, progress-bar(Str:D $prfix, Int:D $current, Int:D $length --> Bool) will put it's gauge\non the bottom line and sub-progress-bar(Str:D $prfix, Int:D $current, Int:D $length --> Bool) writes to the line above in the init-term(Bars::Two)\ncase,  finally the deinit-term(Int:D $sig) function removes the progress bars and makes the bottom lines part of the\nnormal scrollable region of the terminal again.",
+    "perl" : "6.d",
+    "license" : "LGPL-3.0-or-later",
+    "authors" : [
+        "Francis Grizzly Smit <grizzly@smit.id.au>"
+    ],
+    "depends": [
+        "IO::Glob"
+    ],
+    "provides" : {
+        "Usage::Utils" : "lib/Terminal/Gauge.rakumod"
+    },
+    "source-url" : "https://github.com/grizzlysmit/Terminal-Gauge.git",
+    "support" : {
+        "source" : "https://github.com/grizzlysmit/Terminal-Gauge.git",
+        "email" : "grizzly@smit.id.au",
+        "bugtracker": "https://github.com/grizzlysmit/Terminal-Gauge/issues"
+    },
+    "auth": "zef:grizzlysmit",
+    "version" : "0.1.0",
+    "tags" : [ "gauge", "progress-bar", "ANSI", "colour", "color",  "terminal" ],
+  "test-depends": [
+  ]
+}

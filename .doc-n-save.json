@@ -1,0 +1,15 @@
+{
+    "additional-pod-files": [
+    ],
+    "markdown-path": "README.md",
+    "exts": [
+        "rakumod"
+    ],
+    "docs": "docs",
+    "name": "Terminal::Gauge",
+    "lib": "rakulib",
+    "separate-markdown-files": false,
+    "bin": "bin",
+    "only-app": false,
+    "comment": "using doc-n-save"
+}
