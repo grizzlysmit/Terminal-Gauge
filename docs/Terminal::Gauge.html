@@ -610,9 +610,7 @@ footer {
 <p>LGPL V3.0+ <a href="https://github.com/grizzlysmit/GUI-Editors/blob/main/LICENSE">LICENSE</a></p>
 </section>
 <p><a href="#table-of-contents">Top of Document</a></p><h1 id="Introduction"><a href="#Terminal::Gauge.rakumod" class="u" title="go to top of document">Introduction</a></h1>
-<pre class="pod-block-code">A B&lt;Raku&gt; module that supports ANSI colour terminal progress gauges. 
-This module utilises ANSI escape sequences to colour and manipulate the output
-it reserves either the bottom row of the terminal C«init-term()» </pre><p>(or <code>init-term(Bars::One)</code>) or it will reserve the bottom 2 rows <code>init-term(Bars::Two)</code> for the gauge or gauges then calls to <code>progress-bar(Str:D $prfix, Int:D $current, Int:D $length --&gt; Bool)</code> and in the case of <code>init-term(Bars::Two)</code> <code>sub-progress-bar(...)</code> will update the progress bars, <code>progress-bar(Str:D $prfix, Int:D $current, Int:D $length --&gt; Bool)</code> will put it's gauge on the bottom line and <code>sub-progress-bar(Str:D $prfix, Int:D $current, Int:D $length --&gt; Bool)</code> writes to the line above in the <code>init-term(Bars::Two)</code> case, finally the <code>deinit-term(Int:D $sig)</code> function removes the progress bars and makes the bottom lines part of the normal scrollable region of the terminal again.</p><h2 id="Example"><a href="#Terminal::Gauge.rakumod" class="u" title="go to top of document">Example</a></h2>
+<p>A <strong>Raku</strong> module that supports ANSI colour terminal progress gauges. This module utilises ANSI escape sequences to colour and manipulate the output it reserves either the bottom row of the terminal <code>init-term()</code> (or <code>init-term(Bars::One)</code>) or it will reserve the bottom 2 rows <code>init-term(Bars::Two)</code> for the gauge or gauges then calls to <code>progress-bar(Str:D $prfix, Int:D $current, Int:D $length --&gt; Bool)</code> and in the case of <code>init-term(Bars::Two)</code> <code>sub-progress-bar(...)</code> will update the progress bars, <code>progress-bar(Str:D $prfix, Int:D $current, Int:D $length --&gt; Bool)</code> will put it's gauge on the bottom line and <code>sub-progress-bar(Str:D $prfix, Int:D $current, Int:D $length --&gt; Bool)</code> writes to the line above in the <code>init-term(Bars::Two)</code> case, finally the <code>deinit-term(Int:D $sig)</code> function removes the progress bars and makes the bottom lines part of the normal scrollable region of the terminal again.</p><h2 id="Example"><a href="#Terminal::Gauge.rakumod" class="u" title="go to top of document">Example</a></h2>
 <pre class="pod-block-code">sub do-progress-bar(...) {
     # set the progress bar colours and chars  #
     # this is optional as reasonable defaults #
@@ -741,7 +739,7 @@ it reserves either the bottom row of the terminal C«init-term()» </pre><p>(or 
 
 
 </pre></section>		</div>
-</div><footer><div>Rendered from <span class="path">UNNAMED</span></div><div>at <span class="time">2025-12-25T08:26:05Z</span></div></footer>
+</div><footer><div>Rendered from <span class="path">UNNAMED</span></div><div>at <span class="time">2025-12-25T08:27:56Z</span></div></footer>
 	</body>
 </html>
 

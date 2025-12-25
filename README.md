@@ -57,11 +57,7 @@ LGPL V3.0+ [LICENSE](https://github.com/grizzlysmit/GUI-Editors/blob/main/LICENS
 Introduction
 ============
 
-    A B<Raku> module that supports ANSI colour terminal progress gauges. 
-    This module utilises ANSI escape sequences to colour and manipulate the output
-    it reserves either the bottom row of the terminal C«init-term()»
-
-(or `init-term(Bars::One)`) or it will reserve the bottom 2 rows `init-term(Bars::Two)` for the gauge or gauges then calls to `progress-bar(Str:D $prfix, Int:D $current, Int:D $length --> Bool)` and in the case of `init-term(Bars::Two)` `sub-progress-bar(...)` will update the progress bars, `progress-bar(Str:D $prfix, Int:D $current, Int:D $length --> Bool)` will put it's gauge on the bottom line and `sub-progress-bar(Str:D $prfix, Int:D $current, Int:D $length --> Bool)` writes to the line above in the `init-term(Bars::Two)` case, finally the `deinit-term(Int:D $sig)` function removes the progress bars and makes the bottom lines part of the normal scrollable region of the terminal again.
+A **Raku** module that supports ANSI colour terminal progress gauges. This module utilises ANSI escape sequences to colour and manipulate the output it reserves either the bottom row of the terminal `init-term()` (or `init-term(Bars::One)`) or it will reserve the bottom 2 rows `init-term(Bars::Two)` for the gauge or gauges then calls to `progress-bar(Str:D $prfix, Int:D $current, Int:D $length --> Bool)` and in the case of `init-term(Bars::Two)` `sub-progress-bar(...)` will update the progress bars, `progress-bar(Str:D $prfix, Int:D $current, Int:D $length --> Bool)` will put it's gauge on the bottom line and `sub-progress-bar(Str:D $prfix, Int:D $current, Int:D $length --> Bool)` writes to the line above in the `init-term(Bars::Two)` case, finally the `deinit-term(Int:D $sig)` function removes the progress bars and makes the bottom lines part of the normal scrollable region of the terminal again.
 
 Example
 -------

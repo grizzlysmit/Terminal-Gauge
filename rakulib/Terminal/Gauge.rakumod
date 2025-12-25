@@ -40,9 +40,9 @@ L<Top of Document|#table-of-contents>
 
 =head1 Introduction
 
- A B<Raku> module that supports ANSI colour terminal progress gauges. 
- This module utilises ANSI escape sequences to colour and manipulate the output
- it reserves either the bottom row of the terminal C«init-term()» 
+A B<Raku> module that supports ANSI colour terminal progress gauges. 
+This module utilises ANSI escape sequences to colour and manipulate the output
+it reserves either the bottom row of the terminal C«init-term()» 
 (or C«init-term(Bars::One)») or it will reserve the bottom 2 rows C«init-term(Bars::Two)»
 for the gauge or gauges then calls to C«progress-bar(Str:D $prfix, Int:D $current, Int:D $length --> Bool)» and in the case of C«init-term(Bars::Two)»
 C«sub-progress-bar(...)» will update the progress bars, C«progress-bar(Str:D $prfix, Int:D $current, Int:D $length --> Bool)» will put it's gauge 
