@@ -1,0 +1,179 @@
+use v6;
+use lib 'lib';
+use Terminal::Gauge;
+use Test;
+
+plan 17;
+
+###########################################
+#                                         #
+# Example inspired by App::Backup         #
+# which uses Terminal::Gauge              #
+#                                         #
+###########################################
+#
+#
+###########################################
+#                                         #
+# set the progress bar colours and chars  #
+# this is optional as reasonable defaults #
+# are provided                            #
+#                                         #
+###########################################
+
+# main progress bar                       #
+ok(set-bar-char("⧫"), "set the char to make the progress bar.");
+ok(set-empty-char(" "), "set the char to pad the progress bar with.");
+ok(set-prefix-foreground("bold,red"), "set the foreground colour of the prefix.");
+ok(set-prefix-background("green"), "set the background colour of the prefix.");
+ok(set-gauge-foreground("bold,red"), "set the foreground colour of the gauge/progress bar.");
+ok(set-gauge-background("cyan"), "set the background colour of the gauge/progress bar.");
+ok(set-suffix-foreground("bold,green"), "set the foreground colour of the suffix (n/m percent% part) of the progress-bar");
+ok(set-suffix-background("blue"), "set the background colour of the suffix (n/m percent% part) of the progress-bar");
+
+# sub progress bar                        #
+ok(set-sub-bar-char("❚"), "set the char to make the sub-progress bar.");
+ok(set-sub-empty-char(" "), "set the char to pad the sub-progress bar with.");
+ok(set-sub-prefix-foreground("bold,cyan"), "set the foreground colour of the prefix of the sub-progress-bar.");
+ok(set-sub-prefix-background("red"), "set the background colour of the prefix of the sub-progress-bar.");
+ok(set-sub-gauge-foreground("bold,green"), "set the foreground colour of the sub gauge/progress bar.");
+ok(set-sub-gauge-background("red"), "set the background colour of the sub gauge/progress bar.");
+ok(set-sub-suffix-foreground("bold,red"), "set the foreground colour of the suffix (n/m percent% part) of the sub-progress-bar");
+ok(set-sub-suffix-background("cyan"), "set the background colour of the suffix (n/m percent% part) of the sub-progress-bar");
+# .
+# .
+# .
+# .
+
+
+sub test-the-progress-bar( --> Bool:D) {
+    # set up the code to insure clean up in all cases we can # 
+    LEAVE {
+        deinit-term(0);
+    }
+    my Str:D $current-host = '';
+    my Num:D $pretend-work = 0.0000000000045.Num;
+    $pretend-work          = 2.45.Num if is-a-terminal();
+    my Num:D $longer       = 1.10.Num;
+    $longer                = 5.34.Num if is-a-terminal();
+    init-term(Bars::Two);
+    my &call-progress-bar = {
+        sub-progress-bar("$current-host: ");
+        progress-bar(" Total: ");
+    };
+    signal(SIGWINCH).tap( { &init-term(Bars::Two),  &call-progress-bar(); } );
+    # .
+    # .
+    # .
+    # .
+    # Initialise the length of the main gauge #
+    my @hosts    = <fred wilma barney betty pebbles bambam>;
+    my $thishost = "wilma";
+    my @dirs     = <archive docs lib rakulib t alpha beta gamma delta epsilon zeta eta yota theta iota kappa lambda mu nu xi rho sigma tau upsilon phi chi psi omega>;
+    my @files    = <.doc-n-save.json .gitignore lib LICENSE META6.json README.md alpha beta gamma delta epsilon zeta eta yota theta iota kappa lambda mu nu xi rho sigma tau upsilon phi chi psi omega>;
+    set-length((@dirs + @files + 2 * @hosts) * @hosts.grep( { $_ ne $thishost } ));
+    init-place(); # intialiase the gauges value must still be past in  #
+    progress-bar(" Total: "); # display the main progress bar #
+    for @hosts -> $host {
+        if $host eq $thishost {
+            say "$thishost.local <---> $host.local: skipped";
+            next;
+            #`««« remove from test as it doesn't mean anything here #
+        } elsif ! shell("ping -c 1 $host.local > /dev/null 2>&1 ") {
+            say "$host.local does not exist  or is down";
+            say "$thishost.local <---> $host.local: skipped"; # »»»
+        } else {
+            $current-host = $host;
+            # .
+            # .
+            # .
+            # initialise the secondary or inner gauges length #
+            set-sub-length(@dirs + @files + 2 * @hosts);
+            init-sub-place(); # initialise the place on the sub-gauge or inner-gauge #
+            sub-progress-bar("$host: "); # show the secondary progress bar #
+            "$thishost.local <---> $host.local".say;
+            # .
+            # .
+            # .
+            for @dirs -> $dir {
+                # .
+                # .
+                # .
+                if $dir.IO ~~ :d {
+                    "processing $dir".say;
+                } else {
+                    "Error: $dir is not a dir".say;
+                }
+                sleep($pretend-work);    # pretend to work #
+                inc-sub-place(); # increment the place on the sub progress bar #
+                sub-progress-bar("$current-host: "); # refresh the sub progress bar #
+                inc-place(); # increment the place on the main progress bar #
+                progress-bar(" Total: "); # refresh the main progress bar #
+                # .
+                # .
+                # .
+            }
+            # .
+            # .
+            # .
+            for @files -> $file {
+                # .
+                # .
+                # .
+                if $file.IO ~~ :f {
+                    "processing $file".say;
+                } else {
+                    "Error: $file is not a file".say;
+                }
+                sleep($pretend-work);    # pretend to work #
+                inc-sub-place(); # increment the place on the sub progress bar #
+                sub-progress-bar("$current-host: "); # refresh the sub progress bar #
+                inc-place(); # increment the place on the main progress bar #
+                progress-bar(" Total: "); # refresh the main progress bar #
+                # .
+                # .
+                # .
+            }
+            # .
+            # .
+            # .
+            for @hosts -> $host_inner {
+                # .
+                # .
+                # .
+                "processing specials/$host_inner".say;
+                sleep($pretend-work * $longer);    # pretend to work #
+                inc-sub-place(); # increment the place on the sub progress bar #
+                sub-progress-bar("$current-host: "); # refresh the sub progress bar #
+                inc-place(); # increment the place on the main progress bar #
+                progress-bar(" Total: "); # refresh the main progress bar #
+                # .
+                # .
+                # .
+                "processing specials/$host_inner".say;
+                sleep($pretend-work * $longer);    # pretend to work #
+                inc-sub-place(); # increment the place on the sub progress bar #
+                sub-progress-bar("$current-host: "); # refresh the sub progress bar #
+                inc-place(); # increment the place on the main progress bar #
+                progress-bar(" Total: "); # refresh the main progress bar #
+                # .
+                # .
+                # .
+                # .
+                # .
+                # .
+            } # for @hosts -> $host_inner #
+            # .
+            # .
+            # .
+        } # end of if else chain #
+        sub-progress-bar("$current-host: ", get-sub-length()); # show 100% #
+        sleep($pretend-work);    # pretend to work #
+    } # for @hosts -> $host #
+    progress-bar(" Total: ", get-length()); # show full 100% #
+    sleep(5) if is-a-terminal(); # optional but help the user to see that it  is complete #
+    signal().tap({ exit $_ });
+    return True;
+}
+
+ok(test-the-progress-bar(), "run a big test of the entire thing.");
