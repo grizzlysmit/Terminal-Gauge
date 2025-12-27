@@ -54,6 +54,9 @@ normal scrollable region of the terminal again.
 
 =begin code :lang<raku>
 
+Example inspired by App::Backup which uses
+Terminal::Gauge
+
 sub do-progress-bar(...) {
     # set the progress bar colours and chars  #
     # this is optional as reasonable defaults #
@@ -81,6 +84,7 @@ sub do-progress-bar(...) {
     LEAVE {
         deinit-term(0);
     }
+    my Str $current-host;
     init-term(Bars::Two);
     my &call-progress-bar = {
         sub-progress-bar("$current-host: ");
@@ -98,10 +102,13 @@ sub do-progress-bar(...) {
     for @hosts -> $host {
         if $host eq $thishost {
             say "$thishost.local <---> $host.local: skipped";
+            next;
         } elsif ! shell("ping -c 1 $host.local > /dev/null 2>&1 ") {
             say "$host.local does not exist  or is down";
             say "$thishost.local <---> $host.local: skipped";
+            next;
         } else {
+            $current-host = $host;
             # .
             # .
             # .
@@ -168,12 +175,8 @@ sub do-progress-bar(...) {
             # .
             # .
             # .
-            %results{$host} = %results_catch;
-            $result +|= $r;
-            "\$r == $r".say;
-            dd $result;
         } # end of if else chain #
-        sub-progress-bar("$current-host: ", get-sub-length(), get-sub-length()); # show 100% #
+        sub-progress-bar("$current-host: ", get-sub-length()); # show 100% #
     } # for @hosts -> $host #
     progress-bar(" Total: ", get-length(), get-length()); # show full 100% #
     sleep(5); # optional but help the user to see that it  is complete #
@@ -418,7 +421,7 @@ sub progress-bar(Str:D $prfix, Int:D $current = get-place(),
 } #`««« sub progress-bar(Str:D $prfix, Int:D $current = get-place(),
                                              Int:D $length = get-length() --> Bool) is export »»»
 
-sub sub-progress-bar(Str:D $prfix, Int:D $current = get-sub-length(),
+sub sub-progress-bar(Str:D $prfix, Int:D $current = get-sub-place(),
                                                     Int:D $length = get-sub-length() --> Bool:D) is export {
     my Str:D $prefix = "";
     if $is-a-terminal {
